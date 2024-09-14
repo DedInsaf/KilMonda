@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекомендации</title>
+</head>
+<body>
+    <h1>Рекомендованные места</h1>
+    <ul>
+        {% for place in recommended_places %}
+        <li>
+            {% if place == "Казанский Кремль" %}
+            <a href="/place/kazan_cremlin">Казанский Кремль</a>
+            {% elif place == "Храм всех религий" %}
+            <a href="/place/all_religions_temple">Храм всех религий</a>
+            {% elif place == "Башня Сеюмбике" %}
+            <a href="/place/syuyumbike_tower">Башня Сеюмбике</a>
+            {% elif place == "Кул Шариф" %}
+            <a href="/place/kul_sharif_mosque">Кул Шариф</a>
+            {% elif place == "Парк Горького" %}
+            <a href="/place/gorky_park">Парк Горького</a>
+            {% elif place == "Аквапарк Ривьера" %}
+            <a href="/place/riviera_waterpark">Аквапарк Ривьера</a>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    <a href="/preferences">Изменить предпочтения</a>
+</body>
+</html>

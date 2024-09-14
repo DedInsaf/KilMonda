@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор предпочтений</title>
+</head>
+<body>
+    <h1>Выберите свои предпочтения</h1>
+    <form action="/recommend/" method="post">
+        <label>
+            <input type="checkbox" name="preferences" value="history">
+            История
+        </label><br>
+        <label>
+            <input type="checkbox" name="preferences" value="entertainment">
+            Развлечения
+        </label><br>
+        <label>
+            <input type="checkbox" name="preferences" value="culture">
+            Культура
+        </label><br>
+        <label>
+            <input type="checkbox" name="preferences" value="nature">
+            Природа
+        </label><br>
+        <button type="submit">Получить рекомендации</button>
+    </form>
+</body>
+</html>

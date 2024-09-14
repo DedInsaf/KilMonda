@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map with Search and Suggestions</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+            position: relative;
+        }
+        /* Скрываем надпись "Leaflet" */
+        .leaflet-control-attribution {
+            display: none !important;
+        }
+        /* Скрываем логотип OpenStreetMap */
+        .leaflet-container a[href="https://www.openstreetmap.org/copyright"] {
+            display: none !important;
+        }
+        /* Стиль для кнопок */
+        .map-button {
+            position: absolute;
+            bottom: 10px;
+            z-index: 1000;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .map-button:hover {
+            background-color: #0056b3;
+        }
+        #locate-button {
+            right: 10px;
+        }
+        #home-button {
+            right: 150px;
+        }
+        /* Поисковая строка вверху по центру */
+        #search-container {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            width: 300px;
+            display: flex;
+        }
+        #search-input {
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            border-radius: 5px 0 0 5px;
+            border: 1px solid #ccc;
+        }
+        #search-button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        #search-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div id="search-container">
+        <input list="suggestions" type="text" id="search-input" placeholder="Search for a place..." />
+        <datalist id="suggestions"></datalist>
+        <button id="search-button" onclick="searchLocation()">Search</button>
+    </div>
+    <button id="locate-button" class="map-button" onclick="addGeolocation()">Show My Location</button>
+    <button id="home-button" class="map-button" onclick="goHome()">Home</button>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([55.7903, 49.1344], 12); // Центрируем карту на Казани
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19
+        }).addTo(map);
+
+        // Достопримечательности
+        var landmarks = [
+            {name: "Казанский Кремль", location: [55.797518, 49.107169]},
+            {name: "Храм всех религий", location: [55.800564, 48.974726]},
+            {name: "Башня Сеюмбике", location: [55.800551, 49.105114]},
+            {name: "Кул Шариф", location: [55.798591, 49.105183]},
+            {name: "Казанско-Богородицкий мужской монастырь", location: [55.799039, 49.113750]},
+            {name: "Аквопарк Ревьера", location: [55.815543, 49.129973]},
+            {name: "Парк Горького", location: [55.798865, 49.147804]},
+            {name: "Театр оперы и балета имени Мусы Джалиля", location: [55.795409, 49.124559]},
+            {name: "Озеро Лебяжье", location: [55.836691, 48.963195]},
+            {name: "Экият", location: [55.780002, 49.138063]},
+        ];
+
+        // Массив для хранения маркеров
+        var markers = [];
+
+        // Заполняем элементы datalist для автоподсказок
+        var datalist = document.getElementById('suggestions');
+        landmarks.forEach(function(landmark) {
+            var option = document.createElement('option');
+            option.value = landmark.name;
+            datalist.appendChild(option);
+        });
+
+        // Создаем маркеры и добавляем их на карту
+        landmarks.forEach(function(landmark) {
+            var marker = L.marker(landmark.location)
+                .bindPopup('<b>' + landmark.name + '</b>')
+                .addTo(map);
+            marker.name = landmark.name; // Добавляем свойство name для поиска
+            markers.push(marker);
+        });
+
+        // Функция поиска местоположения по названию
+        function searchLocation() {
+            var input = document.getElementById('search-input').value.toLowerCase();
+            var found = false;
+
+            markers.forEach(function(marker) {
+                if (marker.name.toLowerCase() === input) {
+                    map.setView(marker.getLatLng(), 14);
+                    marker.openPopup();
+                    found = true;
+                }
+            });
+
+            if (!found) {
+                alert("Place not found!");
+            }
+        }
+
+        // Функция для обновления видимости маркеров в зависимости от масштаба
+        function updateMarkersVisibility() {
+            var zoomLevel = map.getZoom();
+            if (zoomLevel >= 12) {
+                markers.forEach(function(marker) {
+                    map.addLayer(marker);
+                });
+            } else {
+                markers.forEach(function(marker) {
+                    map.removeLayer(marker);
+                });
+            }
+        }
+
+        // Вызываем функцию при загрузке карты и при изменении масштаба
+        updateMarkersVisibility();
+        map.on('zoomend', updateMarkersVisibility);
+
+        var customIcon = L.icon({
+            iconUrl: '/static/images/gps1.png', // Путь к изображению через статическую папку
+            iconSize: [25, 36], // Размер иконки
+            iconAnchor: [16, 32], // Точка привязки на иконке (центрирование)
+            popupAnchor: [-3, -32], // Точка привязки для попапа
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            shadowSize: [41, 41] // Размер тени
+        });
+
+        // Функция для добавления геолокации пользователя на карту
+        function addGeolocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var userLatLng = [position.coords.latitude, position.coords.longitude];
+                    L.marker(userLatLng, { icon: customIcon }) // Используем кастомную иконку
+                        .addTo(map)
+                        .bindPopup('<b>You are here!</b>')
+                        .openPopup();
+                    map.setView(userLatLng, 14); // Устанавливаем вид на местоположение пользователя
+                }, function() {
+                    alert('Geolocation failed!');
+                });
+            } else {
+                alert('Geolocation is not supported by this browser.');
+            }
+        }
+
+        // Функция для перехода на главную страницу
+        function goHome() {
+            window.location.href = '/'; // Замените '/' на URL вашей главной страницы
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Кнопки</title>
+
+    <style>
+    .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background-color: #dcd0ff;
+    }
+
+    button {
+        font-size: 16px;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border-radius: 5px;
+    }
+
+    .main-button {
+        background-color: #FF6347;
+        color: black;
+    }
+
+    .map-button {
+        background-color: #32CD32;
+        color: white;
+    }
+
+    .login-button {
+        background-color: #00A693;
+        color: white;
+    }
+
+    .preferences-button {
+        background-color: #1E90FF;
+        color: white;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    button:focus {
+        outline: none;
+    }
+
+    body {
+        background-color: #08E8DE;
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+    </style>
+
+</head>
+<body>
+
+<div class="buttons-container">
+    <button class="main-button" data-url="/home">Главная</button>
+    <button class="map-button" data-url="/map">Карта</button>
+    <button class="login-button" data-url="/login">Логин</button>
+    <button class="preferences-button" data-url="/preferences">Выбор предпочтений</button>
+    <a href="/register">Register</a> | <a href="/login">Login</a>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('.buttons-container button');
+    function handleButtonClick(event) {
+        event.preventDefault();
+        var targetUrl = event.target.dataset.url;
+        window.location.href = targetUrl;
+    }
+    buttons.forEach(function(button) {
+        button.addEventListener('click', handleButtonClick);
+    });
+});
+</script>
+
+</body>
+</html>
