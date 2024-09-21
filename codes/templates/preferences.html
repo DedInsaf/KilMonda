@@ -3,28 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Выбор предпочтений</title>
+    <title>Выбор предпочтений - Kil Manda</title>
+
+    <style>
+    /* Общие стили */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+    }
+
+    header {
+        background-color: #2bbab5; /* Основной цвет */
+        padding: 20px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+        font-size: 36px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Стили формы */
+    form {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #f0fafa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    form h1 {
+        font-size: 24px;
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Стили для чекбоксов */
+    label {
+        font-size: 18px;
+        color: #555;
+        display: block;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    /* Стили для кнопок */
+    .button {
+        background-color: #ff8c00; /* Яркий цвет кнопки */
+        color: white;
+        font-size: 18px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-block;
+        margin: 20px 10px; /* Добавлен отступ между кнопками */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        background-color: #e67e00; /* Темнее при наведении */
+        transform: scale(1.05);
+    }
+
+    .button:active {
+        background-color: #cc7000; /* Еще темнее при нажатии */
+    }
+
+    /* Контейнер для кнопок */
+    .button-container {
+        text-align: center; /* Центрирование кнопок */
+    }
+
+    </style>
 </head>
 <body>
-    <h1>Выберите свои предпочтения</h1>
-    <form action="/recommend/" method="post">
-        <label>
-            <input type="checkbox" name="preferences" value="history">
-            История
-        </label><br>
-        <label>
-            <input type="checkbox" name="preferences" value="entertainment">
-            Развлечения
-        </label><br>
-        <label>
-            <input type="checkbox" name="preferences" value="culture">
-            Культура
-        </label><br>
-        <label>
-            <input type="checkbox" name="preferences" value="nature">
-            Природа
-        </label><br>
-        <button type="submit">Получить рекомендации</button>
-    </form>
+
+<header>
+    <h1>Выберите свои предпочтения - Kil Manda</h1>
+</header>
+
+<!-- Форма выбора предпочтений -->
+<form action="/recommend/" method="post">
+    <h1>Выберите свои интересы</h1>
+
+    <label>
+        <input type="checkbox" name="preferences" value="history">
+        История
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="entertainment">
+        Развлечения
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="culture">
+        Культура
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="nature">
+        Природа
+    </label>
+
+    <!-- Контейнер для обеих кнопок -->
+    <div class="button-container">
+        <button type="submit" class="button">Получить рекомендации</button>
+        <a href="/" class="button">Домой</a>
+    </div>
+</form>
+
 </body>
 </html>

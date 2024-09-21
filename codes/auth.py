@@ -1,8 +1,6 @@
-from fastapi import Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
-from database import get_db
-from models import User
+from codes.models import User
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

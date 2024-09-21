@@ -6,50 +6,70 @@
     <title>Map with Search and Suggestions</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" />
     <style>
-        #map {
-            height: 100vh;
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             width: 100%;
-            position: relative;
+            box-sizing: border-box;
         }
+
+        #map {
+            height: 97.7vh; /* Уменьшаем высоту карты, чтобы не было scrollbar */
+            width: 98.5vw; /* Уменьшаем ширину карты */
+            position: relative;
+            margin: 0 auto; /* Центрируем карту */
+            border: 10px solid #4cc8c3; /* Толстая рамка с цветом #4cc8c3 */
+            border-radius: 15px; /* Закругляем углы больше */
+            box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.2); /* Более сильная тень */
+        }
+
         /* Скрываем надпись "Leaflet" */
         .leaflet-control-attribution {
             display: none !important;
         }
+
         /* Скрываем логотип OpenStreetMap */
         .leaflet-container a[href="https://www.openstreetmap.org/copyright"] {
             display: none !important;
         }
+
         /* Стиль для кнопок */
         .map-button {
             position: absolute;
-            bottom: 10px;
+            bottom: 20px;
             z-index: 1000;
             padding: 10px;
-            background-color: #007bff;
+            background-color: #f5b642; /* Цвет кнопок */
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
+
         .map-button:hover {
-            background-color: #0056b3;
+            background-color: #d69832; /* Темнее при наведении */
         }
+
         #locate-button {
-            right: 10px;
+            right: 20px;
         }
+
         #home-button {
-            right: 150px;
+            right: 160px;
         }
-        /* Поисковая строка вверху по центру */
+
+        /* Поисковая строка ниже рамки карты */
         #search-container {
             position: absolute;
-            top: 10px;
+            top: 20px; /* Опускаем ниже */
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
             width: 300px;
             display: flex;
         }
+
         #search-input {
             flex: 1;
             padding: 10px;
@@ -57,16 +77,18 @@
             border-radius: 5px 0 0 5px;
             border: 1px solid #ccc;
         }
+
         #search-button {
             padding: 10px;
-            background-color: #007bff;
+            background-color: #4cc8c3; /* Цвет кнопки поиска */
             color: white;
             border: none;
             border-radius: 0 5px 5px 0;
             cursor: pointer;
         }
+
         #search-button:hover {
-            background-color: #0056b3;
+            background-color: #2bbab5; /* Темнее при наведении */
         }
     </style>
 </head>
@@ -113,14 +135,34 @@
             datalist.appendChild(option);
         });
 
+        // Словарь для соответствия между названием и URL-friendly версией
+        var nameToUrlMapping = {
+            "Казанский Кремль": "kazan_cremlin",
+            "Храм всех религий": "all_religions_temple",
+            "Башня Сеюмбике": "syuyumbike_tower",
+            "Кул Шариф": "kul_sharif_mosque",
+            "Казанско-Богородицкий мужской монастырь": "bogoroditsky_monastery",
+            "Аквапарк Ревьера": "riviera_waterpark",
+            "Парк Горького": "gorky_park",
+            "Театр оперы и балета имени Мусы Джалиля": "opera_theatre",
+            "Озеро Лебяжье": "lebyazhye_lake",
+            "Экият": "ekiyat_theatre"
+        };
+
         // Создаем маркеры и добавляем их на карту
         landmarks.forEach(function(landmark) {
+            var urlFriendlyName = nameToUrlMapping[landmark.name] || toUrlFriendly(landmark.name); // Берем из словаря или формируем URL-friendly версию
             var marker = L.marker(landmark.location)
-                .bindPopup('<b>' + landmark.name + '</b>')
+                .bindPopup('<b><a href="/place/' + urlFriendlyName + '">' + landmark.name + '</a></b>')  // Относительная ссылка
                 .addTo(map);
             marker.name = landmark.name; // Добавляем свойство name для поиска
             markers.push(marker);
         });
+
+        // Функция для преобразования названия места в URL-friendly формат (на случай отсутствия в словаре)
+        function toUrlFriendly(name) {
+            return name.trim().replace(/\s+/g, '_').toLowerCase();
+        }
 
         // Функция поиска местоположения по названию
         function searchLocation() {
@@ -140,7 +182,6 @@
             }
         }
 
-        // Функция для обновления видимости маркеров в зависимости от масштаба
         function updateMarkersVisibility() {
             var zoomLevel = map.getZoom();
             if (zoomLevel >= 12) {

@@ -2,84 +2,222 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Кнопки</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kil Manda - Откройте интересные места</title>
 
     <style>
-    .buttons-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        background-color: #dcd0ff;
+    /* Общие стили для страницы */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
     }
 
-    button {
+    /* Стили для заголовка и кнопок */
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2bbab5; /* Основной цвет */
+        padding: 10px 20px;
+        color: #fff;
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Кнопка подписки */
+    .subscribe-button {
         font-size: 16px;
         padding: 10px 20px;
-        margin: 0 10px;
+        background-color: #5CCB90;
+        color: white;
         border: none;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
         border-radius: 5px;
+        cursor: pointer;
+        margin-top: 40px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        transition: background-color 0.3s ease;
     }
 
-    .main-button {
-        background-color: #FF6347;
-        color: black;
+    .subscribe-button:hover {
+        background-color: #6ddea1;
+    }
+
+    /* Основной контент */
+    .content {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .content h2 {
+        font-size: 36px;
+        margin-bottom: 20px;
+        color: #2bbab5; /* Основной цвет */
+    }
+
+    .content p {
+        font-size: 18px;
+        line-height: 1.8;
+        max-width: 800px;
+        margin: 0 auto;
+        color: #636e72;
+    }
+
+    /* Описание сайта */
+    .description {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f0fafa;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Кнопка карты и рекомендации */
+    .buttons-container {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .map-button,
+    .recommendations-button {
+        font-size: 18px;
+        padding: 15px 30px;
+        border: none;
+        cursor: pointer;
+        border-radius: 30px;
+        transition: background-color 0.3s ease;
+        color: white;
+        font-weight: bold;
     }
 
     .map-button {
-        background-color: #32CD32;
+        background-color: #2bbab5;
+    }
+
+    .recommendations-button {
+        background-color: #f39c12;
+        color: #2d3436;
+    }
+
+    .map-button:hover {
+        background-color: #4cc8c3;
+    }
+
+    .recommendations-button:hover {
+        background-color: #f5b642;
+    }
+
+    /* Футер */
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #2bbab5; /* Основной цвет */
         color: white;
+        margin-top: 50px;
     }
 
-    .login-button {
-        background-color: #00A693;
-        color: white;
-    }
-
-    .preferences-button {
-        background-color: #1E90FF;
-        color: white;
-    }
-
-    button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    button:focus {
-        outline: none;
-    }
-
-    body {
-        background-color: #08E8DE;
+    footer p {
         margin: 0;
-        font-family: Arial, sans-serif;
+        color: #ffffff;
+    }
+
+    /* Картинки */
+    .image-container {
+        text-align: center;
+        padding: 50px 0;
+    }
+
+    .image-container img {
+        max-width: 80%;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
     </style>
-
 </head>
 <body>
 
-<div class="buttons-container">
-    <button class="main-button" data-url="/home">Главная</button>
-    <button class="map-button" data-url="/map">Карта</button>
-    <button class="login-button" data-url="/login">Логин</button>
-    <button class="preferences-button" data-url="/preferences">Выбор предпочтений</button>
-    <a href="/register">Register</a> | <a href="/login">Login</a>
+<header>
+    <h1>Kil Manda</h1>
+    <div class="auth-buttons">
+        <button class="login-button" data-url="/login">Войти</button>
+        <button class="register-button" data-url="/register">Регистрация</button>
+    </div>
+</header>
+
+<!-- Основной контент -->
+<div class="content">
+    <h2>Откройте лучшие места на карте или выберите по категориям!</h2>
+    <p class="description">
+        Kil Manda — это ваш помощник в поиске интересных мест! Мы поможем вам найти красивые парки, уютные кафе, необычные достопримечательности и скрытые уголки вашего города. Исследуйте карту для поиска ближайших мест или выберите подходящую категорию для уникальных рекомендаций.
+    </p>
+
+    <!-- Кнопки карты и категорий -->
+    <div class="buttons-container">
+        <button class="map-button" data-url="/map">Посмотреть на карте</button>
+        <button class="recommendations-button" data-url="/categories">Места по категориям</button>
+    </div>
+
+    <!-- Кнопка подписки с новым текстом -->
+    <button class="subscribe-button" data-url="/subscribe">Хотите увидеть больше? Оформите подписку!</button>
 </div>
+
+<!-- Картинки -->
+<div class="image-container">
+    <img src="/static/images/park.jpg" alt="Красивый парк" width="25%">
+    <img src="/static/images/cafe.jpeg" alt="Уютное кафе" width="25%">
+</div>
+
+<footer>
+    <p>&copy; 2024 Kil Manda. Все права защищены.</p>
+</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var buttons = document.querySelectorAll('.buttons-container button');
-    function handleButtonClick(event) {
-        event.preventDefault();
-        var targetUrl = event.target.dataset.url;
-        window.location.href = targetUrl;
-    }
+    var buttons = document.querySelectorAll('button');
+
     buttons.forEach(function(button) {
-        button.addEventListener('click', handleButtonClick);
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var targetUrl = event.target.dataset.url;
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
+        });
     });
 });
 </script>

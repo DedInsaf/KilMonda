@@ -1,11 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fdfdfd;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: 40px auto;
+        }
+
+        /* Стиль кнопки */
+        button, .home-button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        /* Класс для центрирования */
+        .centered-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Profile</h1>
+
+<h1>Profile</h1>
+
+<div class="profile-container">
     <p>Username: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
+</div>
+
+<!-- Кнопка "Домой" по центру -->
+<div class="centered-button">
+    <button class="home-button" onclick="window.location.href='/'">Домой</button>
+</div>
+
 </body>
 </html>
