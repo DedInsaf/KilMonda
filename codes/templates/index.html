@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kil Manda - Откройте интересные места</title>
+    <title>Kil Manda - Посетите интересные места</title>
 
     <style>
     /* Общие стили для страницы */
@@ -52,20 +52,24 @@
     }
 
     /* Кнопка подписки */
+    .recommendations-button,
     .subscribe-button {
-        font-size: 16px;
-        padding: 10px 20px;
+        font-size: 18px;
+        padding: 15px 30px;
         background-color: #5CCB90;
         color: white;
+        font-weight: bold;
         border: none;
-        border-radius: 5px;
+        border-radius: 30px;
         cursor: pointer;
         margin-top: 40px;
         display: block;
-        margin-left: auto;
-        margin-right: auto;
         transition: background-color 0.3s ease;
-    }
+
+        /* Добавляем новое свойство для разделения текста */
+        word-wrap: break-word;
+}
+
 
     .subscribe-button:hover {
         background-color: #6ddea1;
@@ -112,8 +116,8 @@
         gap: 20px;
     }
 
-    .map-button,
-    .recommendations-button {
+    .routes-button,
+    .map-button{
         font-size: 18px;
         padding: 15px 30px;
         border: none;
@@ -130,11 +134,18 @@
 
     .recommendations-button {
         background-color: #f39c12;
-        color: #2d3436;
+    }
+
+    .routes-button {
+        background-color: #D35400;
     }
 
     .map-button:hover {
         background-color: #4cc8c3;
+    }
+
+    .routes-button:hover{
+        background-color: #d17a41;
     }
 
     .recommendations-button:hover {
@@ -172,7 +183,7 @@
 <body>
 
 <header>
-    <h1>Kil Manda</h1>
+    <h1>Кил' Манда</h1>
     <div class="auth-buttons">
         <button class="login-button" data-url="/login">Войти</button>
         <button class="register-button" data-url="/register">Регистрация</button>
@@ -189,11 +200,17 @@
     <!-- Кнопки карты и категорий -->
     <div class="buttons-container">
         <button class="map-button" data-url="/map">Посмотреть на карте</button>
-        <button class="recommendations-button" data-url="/categories">Места по категориям</button>
+        <button class="routes-button" data-url="/routes">Рекомендуемые маршруты</button>
     </div>
 
     <!-- Кнопка подписки с новым текстом -->
-    <button class="subscribe-button" data-url="/subscribe">Хотите увидеть больше? Оформите подписку!</button>
+    <div class="buttons-container">
+        <button class="recommendations-button" data-url="/categories">Места по категориям</button>
+        <button class="subscribe-button" data-url="/subscribe">
+            Хотите увидеть больше?<br>
+            Оформите подписку!
+        </button>
+    </div>
 </div>
 
 <!-- Картинки -->

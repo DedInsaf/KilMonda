@@ -45,6 +45,10 @@ async def place_detail(request: Request, place_name: str):
 def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
+@app.get("/routes")
+def routes(request: Request):
+    return templates.TemplateResponse("routes.html", {"request": request})
+
 @app.get("/login", response_class=HTMLResponse)
 def login(request: Request):
     return templates.TemplateResponse("login.html", {"request": request})

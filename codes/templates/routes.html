@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Рекомендованные маршруты</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #fdfdfd;
+            color: #333;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #2bbab5;
+            padding: 10px 20px;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 20px;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-title {
+            flex-grow: 1;
+            text-align: center;
+            font-size: 28px;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .routes-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #f0fafa;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .routes {
+            max-width: 100%;
+            margin: 10px auto;
+            padding: 15px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .routes h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .routes p {
+            font-size: 16px;
+            color: #555;
+            margin: 5px 0;
+        }
+
+        .button {
+            background-color: #ff8c00;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-block;
+            margin-top: 10px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #e67e00;
+            transform: scale(1.05);
+        }
+
+        .button:active {
+            background-color: #cc7000;
+        }
+
+    </style>
+</head>
+<body>
+<header>
+    <a href="/" class="logo">Кил' Манда</a>
+    <h1 class="header-title">Рекомендованные маршруты</h1>
+    <div style="width: 60px;"></div> <!-- Пустой div для выравнивания по центру -->
+</header>
+<div class="routes-container">
+    <div class="routes">
+        <h2>Историческая Казань</h2>
+        <p>Маршрут по основным историческим достопримечательностям Казани, включая Казанский Кремль и мечеть Кул-Шариф.</p>
+        <div>
+            <a href="#" class="button">Подробнее</a>
+        </div>
+    </div>
+    <div class="routes">
+        <h2>Архитектурные шедевры</h2>
+        <p>Экскурсия по знаковым архитектурным объектам города, таким как Дворец земледельцев и Дом Ушковой.</p>
+        <div>
+            <a href="#" class="button">Подробнее</a>
+        </div>
+    </div>
+    <div class="routes">
+        <h2>Прогулка по набережной</h2>
+        <p>Маршрут вдоль набережной реки Казанки с красивыми видами, парками и зонами отдыха.</p>
+        <div>
+            <a href="#" class="button">Подробнее</a>
+        </div>
+    </div>
+    <div class="routes">
+        <h2>Секреты Старо-Татарской слободы</h2>
+        <p>Откройте для себя уникальную атмосферу Старо-Татарской слободы с её музеями и национальной кухней.</p>
+        <div>
+            <a href="#" class="button">Подробнее</a>
+        </div>
+    </div>
+    <div class="routes">
+        <h2>Казань для гурманов</h2>
+        <p>Гастрономический тур по лучшим заведениям города, где можно попробовать блюда национальной кухни.</p>
+        <div>
+            <a href="#" class="button">Подробнее</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
