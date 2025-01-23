@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подписки</title>
+
+    <style>
+    /* Общие стили */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2bbab5;
+        padding: 10px 20px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Стили для кнопки пользователя */
+    .user-button {
+        display: inline-block;
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-button:hover {
+        background-color: #9de7e4;
+        transform: scale(1.05);
+    }
+
+    .user-button:active {
+        background-color: #4ab6b3;
+    }
+
+    .logo {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+      }
+
+    .header-title {
+        flex-grow: 1;
+        text-align: center;
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Стили для контейнера подписок */
+    .subscriptions-container {
+        max-width: 900px;
+        margin: 40px auto;
+        background-color: #f0fafa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subscriptions-container h1 {
+        font-size: 24px;
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Стили для Flexbox для расположения подписок по 2 в ряд */
+    .subscriptions-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .subscription {
+        flex: 1 1 calc(50% - 10px); /* Ширина 50% с небольшим отступом */
+        margin: 10px 0;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-sizing: border-box;
+    }
+
+    /* Стили для подписки PRO */
+    .subscription.centered {
+        flex: 0 0 100%; /* Делаем её на всю ширину, но центрируем */
+        max-width: calc(50% - 10px);
+        margin: 10px auto; /* Центрирование по горизонтали */
+    }
+
+    .subscription h2 {
+        font-size: 20px;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .subscription p {
+        font-size: 16px;
+        color: #555;
+        margin: 5px 0;
+    }
+
+    /* Стили для кнопок подписки */
+    .button {
+        background-color: #ff8c00;
+        color: white;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .button:hover {
+        background-color: #e67e00;
+        transform: scale(1.05);
+    }
+
+    .button:active {
+        background-color: #cc7000;
+    }
+
+    /* Стили для кнопки "На главную", чтобы она выделялась */
+    .home-button {
+        background-color: #4cc8c3;
+        color: white;
+        padding: 15px 30px;
+        font-size: 18px;
+        margin: 40px auto 0;
+        display: block;
+        width: fit-content;
+        border-radius: 40px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        text-decoration: none;
+    }
+
+    .home-button:hover {
+        background-color: #2bbab5;
+        transform: scale(1.05);
+    }
+
+    /* Для мобильных устройств */
+    @media (max-width: 600px) {
+        .subscription {
+            flex: 1 1 100%; /* На мобильных устройствах подписки занимают 100% ширины */
+        }
+
+        .subscription.centered {
+            max-width: 100%; /* Центрирование также на мобильных устройствах */
+        }
+    }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Кил' Монда</a>
+    <h1 class="header-title">Подписки</h1>
+    <div class="auth-buttons" id="auth-buttons">
+        {% if request.cookies.get('username') %}
+            <a href="/profile/{{ request.cookies.get('username') }}" class="user-button">
+                {{ request.cookies.get('username') }}
+            </a>
+            <button class="logout-button" data-url="/logout">Выйти</button>
+        {% else %}
+            <button class="login-button" data-url="/login">Войти</button>
+            <button class="register-button" data-url="/register">Регистрация</button>
+        {% endif %}
+    </div>
+</header>
+
+<div class="subscriptions-container">
+    <h1>Выберите подписку</h1>
+
+    <div class="subscriptions-grid">
+        <!-- Бесплатная подписка -->
+        <div class="subscription">
+            <h2>Бесплатная</h2>
+            <p>Доступ к самым популярным местам.</p>
+            <div>
+                <a href="/subscribe/free" class="button">Подробнее</a>
+            </div>
+        </div>
+
+        <!-- Подписка до 25 лет -->
+        <div class="subscription">
+            <h2>До 25 лет (Платная)</h2>
+            <p>Доступ ко всем местам и рекомендациям по выбранным категориям.</p>
+            <div>
+                <a href="/subscribe/under25" class="button">Подробнее</a>
+            </div>
+        </div>
+
+        <!-- Подписка 25-45 лет -->
+        <div class="subscription">
+            <h2>25-45 лет (Платная)</h2>
+            <p>Все включено: доступ ко всем местам и категориям.</p>
+            <div>
+                <a href="/subscribe/25-45" class="button">Подробнее</a>
+            </div>
+        </div>
+
+        <!-- Подписка 45+ лет -->
+        <div class="subscription">
+            <h2>45+ лет (Платная)</h2>
+            <p>Полный доступ к месту назначения с рекомендациями и картой.</p>
+            <div>
+                <a href="/subscribe/45plus" class="button">Подробнее</a>
+            </div>
+        </div>
+
+        <!-- PRO подписка по центру -->
+        <div class="subscription centered">
+            <h2>PRO - Все включено (Платная)</h2>
+            <p>Доступ к премиальным местам и дополнительным функциям.</p>
+            <div>
+                <a href="/subscribe/pro" class="button">Подробнее</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Кнопка "На главную" внизу -->
+    <div>
+        <a href="/" class="home-button">На главную</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('button');
+
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var targetUrl = event.target.dataset.url;
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

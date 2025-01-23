@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #fdfdfd;
+        }
+
+        .profile-container {
+            max-width: 720px;
+            margin: 40px auto;
+        }
+
+        button, .home-button {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 10px 20px;
+        }
+
+        .centered-button {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px auto;
+        }
+
+        .key-container {
+            margin-top: 20px;
+            background-color: #fff;
+            position: relative;
+        }
+
+        .hidden-key {
+            font-size: 16px;
+            letter-spacing: 3px;
+            color: #ccc;
+            text-shadow: 0 0 5px #ccc;
+        }
+
+        .show-button {
+            margin-left: 10px;
+            background-color: #2bbab5;
+            font-size: 14px;
+        }
+
+        .copy-button {
+            margin-top: 10px;
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Profile</h1>
+
+<div class="profile-container">
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    <div class="key-container">
+		<p>Ваш ключ: <span id="user-key" class="hidden-key">************</span>
+        <button id="toggle-key-button" class="show-button">Показать</button>
+        <button id="copy-key-button" class="copy-button">Копировать</button>
+    	<button id="regenerate-key-button">Regenerate Key</button></p>
+        
+    </div>
+
+</div>
+
+<script>
+    // Логика для показа/скрытия ключа
+    const toggleKeyButton = document.getElementById("toggle-key-button");
+    const userKey = document.getElementById("user-key");
+
+    toggleKeyButton.addEventListener("click", () => {
+        if (userKey.classList.contains("hidden-key")) {
+            userKey.textContent = userKey.dataset.actualKey || "{{ user.key }}"; // Показываем ключ
+            userKey.classList.remove("hidden-key");
+            toggleKeyButton.textContent = "Скрыть";
+        } else {
+            userKey.textContent = "************"; // Скрываем ключ
+            userKey.classList.add("hidden-key");
+            toggleKeyButton.textContent = "Показать";
+        }
+    });
+
+    // Логика для копирования ключа
+    const copyKeyButton = document.getElementById("copy-key-button");
+
+    copyKeyButton.addEventListener("click", async () => {
+        try {
+            // Используем ключ из data-атрибута (актуальный ключ)
+            const keyToCopy = userKey.dataset.actualKey || "{{ user.key }}";
+            await navigator.clipboard.writeText(keyToCopy);
+
+            alert("Ключ успешно скопирован!");
+        } catch (err) {
+            alert("Не удалось скопировать ключ: " + err.message);
+        }
+    });
+
+    // Логика для генерации нового ключа
+    document.getElementById("regenerate-key-button").addEventListener("click", async () => {
+        try {
+            const response = await fetch(`/profile/{{ user.username }}/regenerate-key`, {
+                method: "POST"
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // Обновляем ключ в интерфейсе
+                userKey.textContent = "************"; // По умолчанию скрываем
+                userKey.classList.add("hidden-key"); // Добавляем класс для скрытия
+                toggleKeyButton.textContent = "Показать";
+
+                // Сохраняем новый ключ для показа
+                userKey.dataset.actualKey = data.key;
+
+                alert("Ключ успешно обновлен!");
+            } else {
+                alert("Не удалось обновить ключ.");
+            }
+        } catch (error) {
+            alert("Произошла ошибка: " + error.message);
+        }
+    });
+</script>
+
+<!-- Кнопка "Домой" по центру -->
+<div class="centered-button">
+    <button class="home-button" onclick="window.location.href='/'">Домой</button>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Киль Монда</title>
+  <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+  <header>
+	  <h1>Кил' Монда</h1>
+	  <div class="header-content">
+		<div class="auth-buttons" id="auth-buttons">
+		  {% if request.cookies.get('username') %}
+			<a href="/profile/{{ request.cookies.get('username') }}" class="user-button">
+			  {{ request.cookies.get('username') }}
+			</a>
+			<button class="logout-button" data-url="/logout">Выйти</button>
+		  {% else %}
+			<button class="login-button" data-url="/login">Войти</button>
+			<button class="register-button" data-url="/register">Регистрация</button>
+		  {% endif %}
+		</div>
+	  </div>
+  </header>
+
+  <div class="content-section">
+    <div class="content">
+      <h2>Откройте лучшие места на карте или выберите по категориям!</h2>
+        <p class="description">
+            Kil Monda — это ваш помощник в поиске интересных мест! Мы поможем вам найти красивые парки, уютные кафе, необычные достопримечательности и скрытые уголки вашего города. Исследуйте карту для поиска ближайших мест или выберите подходящую категорию для уникальных рекомендаций.
+        </p>
+    </div>
+  </div>
+
+  <div class="slider-section">
+    <div class="slider-heading" style="text-align: center; margin-top: 40px; margin-bottom: 10px;">
+        <h2>Популярные места в Казани!</h2>
+    </div>
+
+    <div class="slider-container">
+        <button class="prev-button">&lt;</button>
+        <div class="slider">
+            <img src="https://cdn.tripster.ru/thumbs2/e87c69d4-eb64-11ec-a0ab-62b813a0600f.1220x600.jpeg" alt="Слайд 1" data-url="/kazan_kremlin">
+            <img src="https://cdn.tripster.ru/thumbs2/880ec8ae-565f-11ef-a41e-ce05bba8f713.1220x600.jpeg" alt="Слайд 2" data-url="/all_region_temple">
+            <img src="https://i.postimg.cc/4NxWmZkP/3.png" alt="Слайд 3" data-url="https://example.com/slide3">
+            <img src="https://i.postimg.cc/FFZPrzq1/8.png" alt="Слайд 4" data-url="https://example.com/slide4">
+            <img src="https://i.postimg.cc/jd3Zf9Rb/7.png" alt="Слайд 5" data-url="https://example.com/slide5">
+        </div>
+        <button class="next-button">&gt;</button>
+    </div>
+  </div>
+
+  <div class="button-section">
+    <div class="content">
+        <h2>Навигация</h2>
+    </div>
+    <div class="button-container">
+        <div class="button-wrapper">
+            <p class="button-description">Откройте карту для поиска интересных мест</p>
+            <button data-url="/map">Посмотреть на карте</button>
+        </div>
+        <div class="button-wrapper">
+            <p class="button-description">Выберите места по интересующим вас категориям</p>
+            <button data-url="/categories">Места по категориям</button>
+        </div>
+        <div class="button-wrapper">
+            <p class="button-description">Просмотрите наши рекомендуемые маршруты</p>
+            <button data-url="/routes">Рекомендуемые маршруты</button>
+        </div>
+        <div class="button-wrapper">
+            <p class="button-description">Выберите подходящую подписку для полного доступа</p>
+            <button data-url="/subscribe">Подписки</button>
+        </div>
+    </div>
+</div>
+
+  <script  src="static/js/homepage.js">></script>
+</body>
+</html>

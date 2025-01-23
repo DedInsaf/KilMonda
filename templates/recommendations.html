@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Рекомендации - Kil Manda</title>
+
+    <style>
+    /* Общие стили */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2bbab5;
+        padding: 10px 20px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Стили для кнопки пользователя */
+    .user-button {
+        display: inline-block;
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-button:hover {
+        background-color: #9de7e4;
+        transform: scale(1.05);
+    }
+
+    .user-button:active {
+        background-color: #4ab6b3;
+    }
+
+    /* Стили для кнопки выхода */
+    .logout-button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #f44336; /* Красный цвет для кнопки выхода */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px; /* Чтобы кнопки не сливались */
+    }
+
+    .logout-button:hover {
+        background-color: #ff7961;
+    }
+
+    .logo {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Стили для списка мест */
+    ul {
+        list-style-type: none;
+        padding: 0;
+        max-width: 800px;
+        margin: 40px auto;
+        background-color: #f0fafa;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    ul li {
+        font-size: 20px;
+        padding: 15px 0;
+        text-align: center;
+    }
+
+    ul li a {
+        color: #2bbab5;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    ul li a:hover {
+        color: #4cc8c3;
+    }
+
+    /* Стили для ссылки изменения предпочтений */
+    .preferences-link {
+        display: block;
+        text-align: center;
+        font-size: 18px;
+        margin-top: 30px;
+        color: #f39c12;
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.3s ease;
+    }
+
+    .preferences-link:hover {
+        color: #f5b642;
+    }
+
+    /* Кнопка "Изменить предпочтения" */
+    .preferences-link {
+        background-color: #ff8c00;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 30px;
+        display: inline-block;
+        margin-top: 30px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .preferences-link:hover {
+        background-color: #f0fafa;
+    }
+    .centered-button{
+        display: flex;
+        margin: 40px auto;
+        justify-content: center;
+        align-items: center;
+    }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Кил' Монда</a>
+    <h1 class="header-title">Рекомендованные места</h1>
+    <div class="auth-buttons" id="auth-buttons">
+        {% if request.cookies.get('username') %}
+            <a href="/profile/{{ request.cookies.get('username') }}" class="user-button">
+                {{ request.cookies.get('username') }}
+            </a>
+            <button class="logout-button" data-url="/logout">Выйти</button>
+        {% else %}
+            <button class="login-button" data-url="/login">Войти</button>
+            <button class="register-button" data-url="/register">Регистрация</button>
+        {% endif %}
+    </div>
+</header>
+
+<!-- Список рекомендованных мест -->
+<ul>
+    {% for place in recommended_places %}
+    <li>
+        {% if place == "Казанский Кремль" %}
+        <a href="/place/kazan_cremlin">Казанский Кремль</a>
+        {% elif place == "Храм всех религий" %}
+        <a href="/place/all_religions_temple">Храм всех религий</a>
+        {% elif place == "Башня Сеюмбике" %}
+        <a href="/place/syuyumbike_tower">Башня Сеюмбике</a>
+        {% elif place == "Кул Шариф" %}
+        <a href="/place/kul_sharif_mosque">Кул Шариф</a>
+        {% elif place == "Казанско-Богородицкий мужской монастырь" %}
+        <a href="/place/kazan_bogoroditsky_monastery">Казанско-Богородицкий мужской монастырь</a>
+        {% elif place == "Парк Горького" %}
+        <a href="/place/gorky_park">Парк Горького</a>
+        {% elif place == "Аквапарк Ривьера" %}
+        <a href="/place/riviera_waterpark">Аквапарк Ривьера</a>
+        {% elif place == "Театр оперы и балета имени Мусы Джалиля" %}
+        <a href="/place/musa_jalil_opera_ballet_theater">Театр оперы и балета имени Мусы Джалиля</a>
+        {% elif place == "Озеро Лебяжье" %}
+        <a href="/place/lebyazhye_lake">Озеро Лебяжье</a>
+        {% elif place == "Кукольный театр Экият" %}
+        <a href="/place/ekiyat_puppet_theater">Кукольный театр Экият</a>
+        {% elif place == "Парк Тысячелетия" %}
+        <a href="/place/millennium_park">Парк Тысячелетия</a>
+        {% elif place == "Мечеть Аль-Марджани" %}
+        <a href="/place/al_marjani_mosque">Мечеть Аль-Марджани</a>
+        {% elif place == "Татарский государственный Академический театр имени Галиасгара Камала" %}
+        <a href="/place/kamal_theater">Татарский государственный Академический театр имени Галиасгара Камала</a>
+        {% elif place == "Центр семьи Казан" %}
+        <a href="/place/family_center_kazan">Центр семьи Казан</a>
+        {% elif place == "Сквер Габдуллы Тукая" %}
+        <a href="/place/gabdulla_tukay_square">Сквер Габдуллы Тукая</a>
+        {% elif place == "Площадь Свободы" %}
+        <a href="/place/freedom_square">Площадь Свободы</a>
+        {% elif place == "ТЦ «Кольцо»" %}
+        <a href="/place/ring_mall">ТЦ «Кольцо»</a>
+        {% elif place == "Национальный музей Республики Татарстан" %}
+        <a href="/place/tatarstan_national_museum">Национальный музей Республики Татарстан</a>
+        {% elif place == "Парк Урицкого" %}
+        <a href="/place/uritsky_park">Парк Урицкого</a>
+        {% elif place == "Нижний Кабан" %}
+        <a href="/place/low_kaban_lake">Нижний Кабан</a>
+        {% elif place == "Музей чак-чака" %}
+        <a href="/place/chak_chak_museum">Музей чак-чака</a>
+        {% elif place == "Речной порт" %}
+        <a href="/place/river_port">Речной порт</a>
+        {% elif place == "Музей советских игровых автоматов" %}
+        <a href="/place/soviet_arcade_museum">Музей советских игровых автоматов</a>
+        {% elif place == "Дворец земледельцев" %}
+        <a href="/place/palace_of_farmers">Дворец земледельцев</a>
+        {% elif place == "Музей-заповедник «Остров-град Свияжск»" %}
+        <a href="/place/sviyazhsk_island_museum">Музей-заповедник «Остров-град Свияжск»</a>
+        {% elif place == "Казанская набережная" %}
+        <a href="/place/kazan_embankment">Казанская набережная</a>
+        {% elif place == "Музей естественной истории Татарстана" %}
+        <a href="/place/natural_history_museum_tatarstan">Музей естественной истории Татарстана</a>
+        {% elif place == "Музей А.М. Горького и Ф.И. Шаляпина" %}
+        <a href="/place/gorky_shalyapin_museum">Музей А.М. Горького и Ф.И. Шаляпина</a>
+        {% elif place == "Парк Победы" %}
+        <a href="/place/victory_park">Парк Победы</a>
+        {% elif place == "Планетарий Казанского федерального университета" %}
+        <a href="/place/kfu_planetarium">Планетарий Казанского федерального университета</a>
+        {% elif place == "Литературный музей имени Габдуллы Тукая" %}
+        <a href="/place/tukay_literary_museum">Литературный музей имени Габдуллы Тукая</a>
+        {% elif place == "Казанский цирк" %}
+        <a href="/place/kazan_circus">Казанский цирк</a>
+        {% elif place == "Казанская ярмарка" %}
+        <a href="/place/kazan_fair">Казанская ярмарка</a>
+        {% elif place == "Чёрное озеро" %}
+        <a href="/place/black_lake">Чёрное озеро</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+
+<!-- Кнопка для изменения предпочтений -->
+<div class="centered-button">
+    <a class="preferences-link" href="/categories">Изменить предпочтения</a>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('button');
+
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var targetUrl = event.target.dataset.url;
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>

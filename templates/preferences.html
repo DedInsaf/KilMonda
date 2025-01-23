@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выбор предпочтений - Kil Manda</title>
+
+    <style>
+    /* Общие стили */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2bbab5;
+        padding: 10px 20px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    /* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Стили для кнопки пользователя */
+    .user-button {
+        display: inline-block;
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-button:hover {
+        background-color: #9de7e4;
+        transform: scale(1.05);
+    }
+
+    .user-button:active {
+        background-color: #4ab6b3;
+    }
+
+    /* Стили для кнопки выхода */
+    .logout-button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #f44336; /* Красный цвет для кнопки выхода */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px; /* Чтобы кнопки не сливались */
+    }
+
+    .logout-button:hover {
+        background-color: #ff7961;
+    }
+
+    /* Кнопка подписки */
+    .recommendations-button,
+    .subscribe-button {
+        font-size: 18px;
+        padding: 15px 30px;
+        background-color: #5CCB90;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        margin-top: 40px;
+        display: block;
+        transition: background-color 0.3s ease;
+
+        /* Добавляем новое свойство для разделения текста */
+        word-wrap: break-word;
+    }
+
+    .logo {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin: 0;
+    }
+
+    /* Стили формы */
+    form {
+        max-width: 600px;
+        margin: 40px auto;
+        background-color: #f0fafa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    form h1 {
+        font-size: 24px;
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    /* Стили для чекбоксов */
+    label {
+        font-size: 18px;
+        color: #555;
+        display: block;
+        margin: 10px 0;
+        cursor: pointer;
+    }
+
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
+
+    /* Стили для кнопок */
+    .button {
+        background-color: #ff8c00; /* Яркий цвет кнопки */
+        color: white;
+        font-size: 18px;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-block;
+        margin: 20px 10px; /* Добавлен отступ между кнопками */
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .button:hover {
+        background-color: #e67e00; /* Темнее при наведении */
+        transform: scale(1.05);
+    }
+
+    .button:active {
+        background-color: #cc7000; /* Еще темнее при нажатии */
+    }
+
+    /* Контейнер для кнопок */
+    .button-container {
+        text-align: center; /* Центрирование кнопок */
+    }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Кил' Монда</a>
+    <h1>Выберите свои предпочтения</h1>
+    <div class="auth-buttons" id="auth-buttons">
+        {% if request.cookies.get('username') %}
+            <a href="/profile/{{ request.cookies.get('username') }}" class="user-button">
+                {{ request.cookies.get('username') }}
+            </a>
+            <button class="logout-button" data-url="/logout">Выйти</button>
+        {% else %}
+            <button class="login-button" data-url="/login">Войти</button>
+            <button class="register-button" data-url="/register">Регистрация</button>
+        {% endif %}
+    </div>
+</header>
+
+<!-- Форма выбора предпочтений -->
+<form action="/recommend/" method="post">
+    <h1>Выберите свои интересы</h1>
+
+    <label>
+        <input type="checkbox" name="preferences" value="history">
+        История
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="entertainment">
+        Развлечения
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="culture">
+        Культура
+    </label>
+
+    <label>
+        <input type="checkbox" name="preferences" value="nature">
+        Природа
+    </label>
+
+    <!-- Контейнер для обеих кнопок -->
+    <div class="button-container">
+        <button type="submit" class="button">Получить рекомендации</button>
+        <a href="/" class="button">Домой</a>
+    </div>
+</form>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('button');
+
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            var targetUrl = event.target.dataset.url;
+            // Обрабатываем только кнопки с data-url
+            if (targetUrl) {
+                event.preventDefault();
+                window.location.href = targetUrl;
+            }
+        });
+    });
+});
+</script>
+
+
+</body>
+</html>

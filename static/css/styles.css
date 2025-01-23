@@ -1,0 +1,300 @@
+* {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: ffffff;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        overflow-x: hidden; /* Отключить горизонтальную прокрутку */
+    }
+
+    header {
+	  position: fixed;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  z-index: 1000;
+	  position: fixed;
+	  background: linear-gradient(#b3c1ff, #a1d5ff); /* Полупрозрачный фон */
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);;
+	  padding: 10px 20px;
+	  color: #fff;
+	}
+
+	.header-content {
+	  position: absolute;
+	  top: 50%;
+	  transform: translateY(-50%);
+	  right: 20px; /* Отступ справа */
+	}
+
+	header h1 {
+        font-size: 38px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+	/* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 18px;
+        padding: 8px 15px;
+        background-color: #4d6dff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Стили для кнопки пользователя */
+    .user-button {
+        display: inline-block;
+        font-size: 18px;
+        padding: 8px 15px;
+        background-color: #4d6dff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-button:hover {
+        background-color: #9de7e4;
+        transform: scale(1.05);
+    }
+
+    .user-button:active {
+        background-color: #4ab6b3;
+    }
+
+    /* Стили для кнопки выхода */
+    .logout-button {
+        font-size: 18px;
+        padding: 8px 15px;
+        background-color: #f44336; /* Красный цвет для кнопки выхода */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px; /* Чтобы кнопки не сливались */
+    }
+
+    .logout-button:hover {
+        background-color: #ff7961;
+    }
+
+	img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .slider-section {
+      width: 100%; /* На всю ширину экрана */
+      background-color: #ffffff; /* Цвет фона */
+      padding: 0px 0;
+      margin-top: 40px;
+    }
+
+    .slider-heading {
+        margin-top: 40px; /* Отступ от верхнего блока */
+        margin-bottom: 10px; /* Небольшой отступ от заголовка до слайдера */
+        text-align: center;
+    }
+
+    .slider-heading h2 {
+        font-size: 46px; /* Размер текста */
+        color: #2b3a6d; /* Цвет текста */
+        font-weight: bold; /* Жирный текст */
+        margin: 0; /* Убираем дополнительные отступы внутри заголовка */
+    }
+
+    .slider-container {
+      position: relative;
+      width: 90%;
+      max-width: 1280px;
+      margin: 0 auto;
+      margin-top: -90px;
+      padding: 0;
+      aspect-ratio: 16/9;
+    }
+
+    .slider {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 1s ease;
+    }
+
+    .slider img {
+      position: absolute;
+      width: 500px;
+      height: 300px;
+      object-fit: cover;
+      opacity: 0.5;
+      transform-origin: center;
+      transition: opacity 0.5s ease, transform 1s ease;
+    }
+
+    .slider img.active {
+      opacity: 1;
+      transform: translateZ(200px) scale(1.2);
+    }
+
+    .slider img.left {
+      transform: translateX(-350px) rotateY(30deg);
+    }
+
+    .slider img.right {
+      transform: translateX(350px) rotateY(-30deg);
+    }
+
+    .prev-button,
+    .next-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 50px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+    }
+
+    .prev-button {
+      left: -20px;
+    }
+
+    .next-button {
+      right: -20px;
+    }
+
+    .prev-button:hover,
+    .next-button:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .description {
+        font-size: 18px;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #cccccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Блок для текста */
+    .content-section {
+      width: 100%; /* На всю ширину экрана */
+      background-color: #f7f7ff; /* Цвет фона */
+      padding: 150px 0;
+    }
+
+     .content {
+        text-align: center;
+        padding: 0px 0px;
+     }
+
+    .content h2 {
+        font-size: 46px;
+        margin-bottom: 20px;
+        color: #2b3a6d;
+    }
+
+    .content p {
+        font-size: 30px;
+        line-height: 1.8;
+        max-width: 920px;
+        margin: 0 auto;
+        line-height: 1.8;
+        color: #2b3a6d; /* Темный текст для хорошей читаемости */
+        background-color: #e6faff; /* Белый фон для плашки */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Блок для кнопок */
+    .button-section {
+      width: 100%; /* На всю ширину экрана */
+      background-color: #f7f7ff; /* Цвет фона */
+      padding: 45px 0;
+    }
+
+    .button-section .content h2 {
+        margin: 45px 0; /* Уменьшены отступы сверху и снизу */
+        text-align: center;    /* Выравнивание по центру */
+        font-size: 46px;       /* Размер текста */
+        color: #2b3a6d;        /* Цвет текста */
+    }
+
+    .button-container {
+        display: flex;
+        flex-direction: column; /* Расположение кнопок по вертикали */
+        gap: 50px; /* Расстояние между строками */
+        align-items: flex-start; /* Выравнивание текста и кнопки по левому краю */
+    }
+
+    .button-wrapper {
+        display: flex;
+        flex-direction: row; /* Элементы в строку */
+        align-items: center; /* Вертикальное выравнивание текста и кнопки */
+        gap: 40px; /* Отступ между описанием и кнопкой */
+    }
+
+    .button-description {
+        text-align: center;
+        font-size: 36px;
+        color: #555;
+        margin: 0px 40px; /* Убираем отступы */
+    }
+
+    .button-wrapper button {
+        padding: 8px 15px;
+        background-color: #4d6dff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 36px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .button-wrapper button:hover {
+        background-color: #ffbf66;
+        transform: scale(1.05);
+    }

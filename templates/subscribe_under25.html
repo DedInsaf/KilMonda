@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подписка до 25 лет - Kil Manda</title>
+
+    <style>
+    /* Общие стили */
+    body {
+        margin: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #fdfdfd;
+        color: #333;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #2bbab5;
+        padding: 10px 20px;
+        color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Кнопки входа и регистрации в правом верхнем углу */
+    .auth-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .auth-buttons button {
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .auth-buttons button:hover {
+        background-color: #9de7e4;
+    }
+
+    /* Стили для кнопки пользователя */
+    .user-button {
+        display: inline-block;
+        font-size: 14px;
+        padding: 8px 15px;
+        background-color: #66ccc9;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        cursor: pointer;
+    }
+
+    .user-button:hover {
+        background-color: #9de7e4;
+        transform: scale(1.05);
+    }
+
+    .user-button:active {
+        background-color: #4ab6b3;
+    }
+
+    .logo {
+        font-size: 20px;
+        color: white;
+        text-decoration: none;
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    header h1 {
+        font-size: 28px;
+        margin: 0;
+        font-weight: bold;
+    }
+
+    /* Стили для контейнера подписки */
+    .subscription-container {
+        max-width: 800px;
+        margin: 40px auto;
+        background-color: #f0fafa;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .subscription-container h2 {
+        font-size: 24px;
+        text-align: center;
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    .subscription-container p {
+        font-size: 16px;
+        color: #555;
+        margin: 10px 0;
+    }
+
+    /* Стили для кнопок */
+    .button {
+        background-color: #ff8c00;
+        color: white;
+        font-size: 16px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        display: inline-block;
+        margin-top: 10px;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+    }
+
+    .button:hover {
+        background-color: #e67e00;
+        transform: scale(1.05);
+    }
+
+    .button:active {
+        background-color: #cc7000;
+    }
+
+    /* Центрирование кнопок */
+    .button-container {
+        text-align: center;
+    }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">Кил' Монда</a>
+    <h1 class="header-title">Подписки до 25 лет</h1>
+    <div class="auth-buttons" id="auth-buttons">
+        {% if request.cookies.get('username') %}
+            <a href="/profile/{{ request.cookies.get('username') }}" class="user-button">
+                {{ request.cookies.get('username') }}
+            </a>
+            <button class="logout-button" data-url="/logout">Выйти</button>
+        {% else %}
+            <button class="login-button" data-url="/login">Войти</button>
+            <button class="register-button" data-url="/register">Регистрация</button>
+        {% endif %}
+    </div>
+</header>
+
+<div class="subscription-container">
+    <h2>Подробности подписки до 25 лет</h2>
+    <p>Доступ ко всем местам и рекомендациям по выбранным категориям.</p>
+    <p>Для этого возраста: 1000 руб./мес</p>
+    <p>Для более молодых или старших: 1200 руб./мес</p>
+    <p>Наша рекомендация: 900 руб./мес</p>
+
+    <div class="button-container">
+        <a href="/subscribe" class="button">Назад к подпискам</a>
+        <a href="/" class="button">На главную</a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var buttons = document.querySelectorAll('button');
+
+    buttons.forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            event.preventDefault();
+            var targetUrl = event.target.dataset.url;
+            if (targetUrl) {
+                window.location.href = targetUrl;
+            }
+        });
+    });
+});
+</script>
+
+</body>
+</html>
