@@ -264,23 +264,27 @@
 
     .button-container {
         display: flex;
-        flex-direction: column; /* Расположение кнопок по вертикали */
-        gap: 50px; /* Расстояние между строками */
-        align-items: flex-start; /* Выравнивание текста и кнопки по левому краю */
+        flex-direction: column;
+        gap: 50px;
+        align-items: center; /* Изменили с flex-start на center */
+        width: 100%; /* Добавили для правильного центрирования */
     }
 
     .button-wrapper {
         display: flex;
-        flex-direction: row; /* Элементы в строку */
-        align-items: center; /* Вертикальное выравнивание текста и кнопки */
-        gap: 40px; /* Отступ между описанием и кнопкой */
+        flex-direction: row;
+        align-items: center;
+        gap: 40px;
+        justify-content: center; /* Добавили выравнивание по центру */
+        width: 100%; /* Добавили для растягивания на всю ширину */
     }
 
     .button-description {
         text-align: center;
         font-size: 36px;
         color: #555;
-        margin: 0px 40px; /* Убираем отступы */
+        margin: 0;
+        max-width: 60%; /* Добавили для ограничения ширины текста */
     }
 
     .button-wrapper button {

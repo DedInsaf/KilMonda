@@ -19,5 +19,3 @@ def authenticate_user(db: Session, email: str, password: str):
     if not security.verify_password(password, user.hashed_password):
         return False
     return user
-
-

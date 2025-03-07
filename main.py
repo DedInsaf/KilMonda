@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from fastapi.templating import Jinja2Templates
 
 import secrets
+import json
 
 from database import engine, Base, get_db
 from auth import authenticate_user, create_user, get_user_by_username, get_user_by_email
@@ -24,117 +25,18 @@ app.add_middleware(SessionMiddleware, secret_key=secrets.token_hex())
 static_dir = os.path.join(os.path.dirname(__file__), 'static')
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-places_data = {
-    "Казанский Кремль": {"categories": ["history", "culture"], "description": "Казанский Кремль — исторический центр Казани."},
-    "Храм всех религий": {"categories": ["history", "culture"], "description": "Храм всех религий — архитектурное сооружение в Казани."},
-    "Башня Сеюмбике": {"categories": ["history", "culture"], "description": "Башня Сеюмбике — символ Казани, одно из наиболее известных строений."},
-    "Кул Шариф": {"categories": ["history", "culture"], "description": "Мечеть Кул Шариф — главная мечеть Татарстана."},
-    "Казанско-Богородицкий мужской монастырь": {"categories": ["history", "culture"], "description": "Казанско-Богородицкий мужской монастырь — одно из известных религиозных сооружений."},
-    "Парк Горького": {"categories": ["entertainment", "nature"], "description": "Парк Горького — популярное место для прогулок и отдыха в Казани."},
-    "Аквапарк Ривьера": {"categories": ["entertainment"], "description": "Аквапарк Ривьера — один из крупнейших аквапарков в России."},
-    "Театр оперы и балета имени Мусы Джалиля": { "categories": ["culture", "entertainment"], "description": "Театр оперы и балета — одно из главных культурных мест Казани."},
-    "Озеро Лебяжье": {"categories": ["nature"],"description": "Озеро Лебяжье — живописное место для отдыха на природе."},
-    "Кукольный театр Экият": {
-        "categories": ["culture", "entertainment"],
-        "description": "Кукольный театр Экият — популярное место для семейного отдыха.",
-    },
-    "Парк Тысячелетия": {
-        "categories": ["nature", "entertainment"],
-        "description": "Парк Тысячелетия — современное место для прогулок в Казани.",
-    },
-    "Мечеть Аль-Марджани": {
-        "categories": ["history", "culture"],
-        "description": "Мечеть Аль-Марджани — одна из старейших мечетей Казани.",
-    },
-    "Татарский государственный Академический театр имени Галиасгара Камала": {
-        "categories": ["culture"],
-        "description": "Театр Камала — крупнейший татарский драматический театр.",
-    },
-    "Центр семьи Казан": {
-        "categories": ["culture", "entertainment"],
-        "description": "Центр семьи Казан — известное архитектурное сооружение и ЗАГС.",
-    },
-    "Сквер Габдуллы Тукая": {
-        "categories": ["nature", "culture"],
-        "description": "Сквер Габдуллы Тукая — место для прогулок, посвящённое татарскому поэту.",
-    },
-    "Площадь Свободы": {
-        "categories": ["culture", "history"],
-        "description": "Площадь Свободы — значимое место для мероприятий в Казани.",
-    },
-    "ТЦ «Кольцо»": {
-        "categories": ["shopping", "entertainment"],
-        "description": "Торговый центр «Кольцо» — популярное место для шопинга и развлечений.",
-    },
-    "Национальный музей Республики Татарстан": {
-        "categories": ["culture", "history"],
-        "description": "Национальный музей Татарстана — главный музей региона.",
-    },
-    "Парк Урицкого": {
-        "categories": ["nature"],
-        "description": "Парк Урицкого — зелёная зона для прогулок и отдыха.",
-    },
-    "Нижний Кабан": {
-        "categories": ["nature"],
-        "description": "Нижний Кабан — озеро, популярное место для прогулок и фотосессий.",
-    },
-    "Музей чак-чака": {
-        "categories": ["culture", "food"],
-        "description": "Музей чак-чака — уникальное место, посвящённое татарскому десерту.",
-    },
-    "Речной порт": {
-        "categories": ["history", "entertainment"],
-        "description": "Речной порт Казани — историческое место и транспортный узел.",
-    },
-    "Музей советских игровых автоматов": {
-        "categories": ["entertainment", "culture"],
-        "description": "Музей советских игровых автоматов — уникальное место с ретро-играми.",
-    },
-    "Дворец земледельцев": {
-        "categories": ["culture", "architecture"],
-        "description": "Дворец земледельцев — архитектурное достояние Казани.",
-    },
-    "Музей-заповедник «Остров-град Свияжск»": {
-        "categories": ["history", "culture"],
-        "description": "Свияжск — исторический остров-град с уникальными памятниками.",
-    },
-    "Казанская набережная": {
-        "categories": ["nature", "entertainment"],
-        "description": "Казанская набережная — место для прогулок и мероприятий.",
-    },
-    "Музей естественной истории Татарстана": {
-        "categories": ["culture", "education"],
-        "description": "Музей естественной истории — интересное место для изучения науки.",
-    },
-    "Музей А.М. Горького и Ф.И. Шаляпина": {
-        "categories": ["culture", "history"],
-        "description": "Музей, посвящённый А.М. Горькому и Ф.И. Шаляпину.",
-    },
-    "Парк Победы": {
-        "categories": ["nature", "history"],
-        "description": "Парк Победы — мемориальный комплекс и зелёная зона.",
-    },
-    "Планетарий Казанского федерального университета": {
-        "categories": ["education", "entertainment"],
-        "description": "Планетарий КФУ — интересное место для любителей астрономии.",
-    },
-    "Литературный музей имени Габдуллы Тукая": {
-        "categories": ["culture", "history"],
-        "description": "Музей, посвящённый жизни и творчеству Габдуллы Тукая.",
-    },
-    "Казанский цирк": {
-        "categories": ["entertainment"],
-        "description": "Казанский цирк — популярное место для семейного отдыха.",
-    },
-    "Казанская ярмарка": {
-        "categories": ["shopping", "entertainment"],
-        "description": "Казанская ярмарка — место для ярмарочных мероприятий и выставок.",
-    },
-    "Чёрное озеро": {
-        "categories": ["nature"],
-        "description": "Чёрное озеро — живописное место для отдыха и прогулок.",
-    },
-}
+def load_places_data():
+    current_dir = os.path.dirname(__file__)
+    file_path = os.path.join(current_dir, 'places.json')
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            return json.load(file)
+    except FileNotFoundError:
+        raise RuntimeError(f"Places data file not found at {file_path}")
+    except json.JSONDecodeError:
+        raise RuntimeError("Error decoding JSON data")
+
+places_data = load_places_data()
 
 @app.get("/kazan_kremlin")
 async def kazan_kremlin(request: Request):

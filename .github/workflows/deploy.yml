@@ -1,0 +1,26 @@
+name: Deploy to Server
+on:
+  push:
+    branches: [ main ]  # Срабатывает при пуше в ветку main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # Используется виртуальная машина Ubuntu
+
+    steps:
+      # Шаг 1: Забрать код из репозитория
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Шаг 2: Подключиться к серверу и выполнить команды
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SERVER_IP }}       # IP сервера из секретов
+          username: ${{ secrets.USERNAME }}    # Пользователь сервера (например, root)
+          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Приватный SSH-ключ
+          port: ${{ secrets.PORT }}            # Порт SSH (по умолчанию 22)
+          script: |                            # Команды для выполнения на сервере
+            cd ${{ secrets.PROJECT_PATH }}     # Перейти в папку проекта
+            git pull origin main               # Обновить код
+            sudo systemctl restart nginx       # Перезапустить nginx
