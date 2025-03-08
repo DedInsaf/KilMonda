@@ -1,26 +1,27 @@
 name: Deploy to Server
 on:
   push:
-    branches: [ main ]  # Срабатывает при пуше в ветку main
+    branches: [main]
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest  # Используется виртуальная машина Ubuntu
-
+    runs-on: ubuntu-latest
     steps:
-      # Шаг 1: Забрать код из репозитория
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Шаг 2: Подключиться к серверу и выполнить команды
+      - name: Add Server SSH Known Hosts
+        run: |
+          ssh-keyscan -H -p ${{ secrets.PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1
         with:
-          host: ${{ secrets.SERVER_IP }}       # IP сервера из секретов
-          username: ${{ secrets.USERNAME }}    # Пользователь сервера (например, root)
+          host: ${{ secrets.SERVER_IP }}       # IP-адрес сервера
+          username: ${{ secrets.USERNAME }}    # Пользователь (например, root)
           key: ${{ secrets.SSH_PRIVATE_KEY }}  # Приватный SSH-ключ
-          port: ${{ secrets.PORT }}            # Порт SSH (по умолчанию 22)
-          script: |                            # Команды для выполнения на сервере
-            cd ${{ secrets.PROJECT_PATH }}     # Перейти в папку проекта
-            git pull origin main               # Обновить код
-            sudo systemctl restart nginx       # Перезапустить nginx
+          port: ${{ secrets.PORT }}            # Порт (например, 22)
+          script: |
+            cd /var/www/html/KilMonda          # Путь к проекту (не через secrets!)
+            git pull origin main
+            sudo systemctl restart nginx
