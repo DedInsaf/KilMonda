@@ -58,11 +58,11 @@ async def place_detail(request: Request, place_name: str):
 @app.get("/", response_class=HTMLResponse)
 def read_root(request: Request):
     user = request.session.get("user")
-    return templates.TemplateResponse("index.html", {"request": request, "user": user})
+    return templates.TemplateResponse("test.html", {"request": request, "user": user})
 
 @app.get("/test")
 def text_page(request: Request):
-    return templates.TemplateResponse("test.html", {"request": request})
+    return templates.TemplateResponse("index.html")
 
 @app.get("/routes")
 def routes(request: Request):
