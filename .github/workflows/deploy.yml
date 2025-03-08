@@ -26,5 +26,6 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             cd /var/www/html/KilMonda
-            git pull origin main
+            git fetch --all         # Забрать все изменения
+            git reset --hard origin/main  # Принудительно перезаписать локальные файлы
             sudo systemctl restart nginx
