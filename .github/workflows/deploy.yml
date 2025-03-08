@@ -15,7 +15,7 @@ jobs:
           ssh-keyscan -H -p ${{ secrets.PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1
+        uses: appleboy/ssh-action@v2
         with:
           host: ${{ secrets.SERVER_IP }}       # IP-адрес сервера
           username: ${{ secrets.USERNAME }}    # Пользователь (например, root)
