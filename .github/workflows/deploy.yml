@@ -12,16 +12,19 @@ jobs:
 
       - name: Add Server SSH Known Hosts
         run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
           ssh-keyscan -H -p ${{ secrets.PORT }} ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.1
         with:
-          host: ${{ secrets.SERVER_IP }}       # IP-адрес сервера
-          username: ${{ secrets.USERNAME }}    # Пользователь (например, root)
-          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Приватный SSH-ключ
-          port: ${{ secrets.PORT }}            # Порт (например, 22)
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
           script: |
-            cd /var/www/html/KilMonda          # Путь к проекту (не через secrets!)
+            cd /var/www/html/KilMonda
             git pull origin main
             sudo systemctl restart nginx
