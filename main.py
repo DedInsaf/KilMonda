@@ -21,9 +21,7 @@ templates = Jinja2Templates(directory="templates")
 
 app.add_middleware(SessionMiddleware, secret_key=secrets.token_hex())
 
-# Указываем путь к статическим файлам относительно main.py
-static_dir = os.path.join(os.path.dirname(__file__), 'static')
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 def load_places_data():
     current_dir = os.path.dirname(__file__)
